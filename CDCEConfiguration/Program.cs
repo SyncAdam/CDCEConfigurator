@@ -1,5 +1,8 @@
 ﻿using System;
 using System.IO.Ports;
+using System.Security.Cryptography.X509Certificates;
+using FTD2XX_NET;
+using static FTD2XX_NET.FTDI;
 public class Program {
     public static void Main()
     {
@@ -16,8 +19,19 @@ public class Program {
 
         var port = new SerialPort(selectedPort, 9600, Parity.None);
         port.Open();
+        FTDI inst = new();
+        FT_DEVICE_INFO_NODE[] deviceList = [];
+        inst.GetDeviceList(deviceList);
+        foreach (var device in deviceList)
+        {
+            Console.WriteLine(device.ID + " " + device.Description);
+        }
 
-        ReadAllRegisters(port);
+        string FTDIport = String.Empty;
+        inst.GetCOMPort(out FTDIport);
+        Console.WriteLine(FTDIport);
+
+        //ReadAllRegisters(port);
     }
 
     public static List<string> GetAllPorts()

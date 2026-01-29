@@ -33,3 +33,4 @@ Z:\dev\sw\ter\CDCEConfiguration\CDCEConfiguration\bin\Debug\net8.0\runtimes\osx-
 Z:\dev\sw\ter\CDCEConfiguration\CDCEConfiguration\bin\Debug\net8.0\runtimes\unix\lib\net8.0\System.IO.Ports.dll
 Z:\dev\sw\ter\CDCEConfiguration\CDCEConfiguration\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.IO.Ports.dll
 Z:\dev\sw\ter\CDCEConfiguration\CDCEConfiguration\obj\Debug\net8.0\CDCEConf.6E544DD6.Up2Date
+Z:\dev\sw\ter\CDCEConfiguration\CDCEConfiguration\obj\Debug\net8.0\CDCEConfiguration.sourcelink.json
