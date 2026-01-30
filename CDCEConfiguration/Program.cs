@@ -4,32 +4,40 @@ using System.Security.Cryptography.X509Certificates;
 using FTD2XX_NET;
 using static FTD2XX_NET.FTDI;
 public class Program {
+
+    private static FTDI ftdi;
+
+    public Program()
+    {
+    }
+
     public static void Main()
     {
         Console.WriteLine("CDCE Configurator\n");
-        List<string> ports = GetAllPorts();
-        Console.WriteLine("Select port:");
-        foreach (var listItem in ports)
+
+        FT_DEVICE_INFO_NODE[] deviceList = new FT_DEVICE_INFO_NODE[1];
+        Program.ftdi = new();
+        Program.ftdi.GetDeviceList(deviceList);
+        if(deviceList.Length == 0)
         {
-            Console.WriteLine("\t" + listItem);
+            Console.WriteLine("No FTDI device found. Quitting...");
+            return;
         }
 
-        string? selectedPort = Console.ReadLine();
-        Console.WriteLine($"Port selected: {selectedPort}");
-
-        var port = new SerialPort(selectedPort, 9600, Parity.None);
-        port.Open();
-        FTDI inst = new();
-        FT_DEVICE_INFO_NODE[] deviceList = [];
-        inst.GetDeviceList(deviceList);
         foreach (var device in deviceList)
         {
-            Console.WriteLine(device.ID + " " + device.Description);
+            Console.WriteLine(device.ID + " " + device.Description + ", Serial: " + device.SerialNumber);
         }
+        Program.ftdi.OpenBySerialNumber(deviceList.ElementAt(0).SerialNumber);
 
         string FTDIport = String.Empty;
-        inst.GetCOMPort(out FTDIport);
-        Console.WriteLine(FTDIport);
+        Program.ftdi.GetCOMPort(out FTDIport);
+        Console.WriteLine("Device found on port: " + FTDIport);
+        ReadAllRegisters();
+
+
+
+        Program.ftdi.Close();
 
         //ReadAllRegisters(port);
     }
@@ -39,7 +47,7 @@ public class Program {
         return new List<string>(SerialPort.GetPortNames());
     }
 
-    public static List<string> ReadAllRegisters(SerialPort port)
+    public static List<string> ReadAllRegisters()
     {
         for(int i = 0; i < 8; i++)
         {
@@ -49,12 +57,14 @@ public class Program {
 
             Byte[] sendBytes = BitConverter.GetBytes(data);
             Array.Reverse(sendBytes);
+            uint sent = 0;
+            uint read = 0;
 
-            port.Write(sendBytes, 0, sendBytes.Length);
+            ftdi.Write(sendBytes, 4, ref sent);
 
             Byte[] receivedBytes = new Byte[4];
 
-            port.Read(receivedBytes, 0, 4);
+            ftdi.Read(receivedBytes, 0, ref read);
 
             string received = address.ToString("D1") + ": ";
             foreach(byte b in receivedBytes)

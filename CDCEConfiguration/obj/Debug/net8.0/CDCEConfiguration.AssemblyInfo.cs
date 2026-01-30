@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CDCEConfiguration")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e3e894532655166f14596f1210ab8a312fa2c5b1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+578f19e32f649e26ac8dbbceb2496755c42ee237")]
 [assembly: System.Reflection.AssemblyProductAttribute("CDCEConfiguration")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CDCEConfiguration")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
